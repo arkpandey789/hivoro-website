@@ -63,9 +63,6 @@ const Header = () => (
       <NavLink to="/" end>
         Home
       </NavLink>
-      <NavLink to="/features">
-        Features
-      </NavLink>
       <NavLink to="/about">
         About
       </NavLink>

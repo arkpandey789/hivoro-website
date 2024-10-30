@@ -1,52 +1,69 @@
-// src/components/Footer.js
 import React from 'react';
 import styled from 'styled-components';
-import { FiTwitter, FiLinkedin } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
-const FooterContainer = styled.footer`
-  padding: 40px 20px;
-  background: #fff;
-  text-align: center;
+const FooterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);  // Translucent background (50% opacity)
 `;
 
-const FooterLinks = styled.div`
+const Links = styled.div`
   margin-bottom: 20px;
+
   a {
+    color: #ffffff;
     margin: 0 10px;
-    color: #666;
     text-decoration: none;
+    transition: color 0.3s;
+
     &:hover {
       color: #4CAF50;
     }
   }
 `;
 
-const SocialMedia = styled.div`
+const SocialIcons = styled.div`
+  display: flex;
+  gap: 15px;
+
   a {
-    margin: 0 10px;
-    color: #666;
-    font-size: 1.5em;
+    color: #ffffff;
+    transition: color 0.3s;
+
     &:hover {
       color: #4CAF50;
     }
   }
 `;
 
-const Footer = () => (
-  <FooterContainer>
-    <FooterLinks>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/features">Features</NavLink>
-      <NavLink to="/about">About</NavLink>
-      <NavLink to="/contact">Contact</NavLink>
-      <NavLink to="/privacy">Privacy Policy</NavLink>
-    </FooterLinks>
-    <SocialMedia>
-      <a href="https://twitter.com"><FiTwitter /></a>
-      <a href="https://linkedin.com"><FiLinkedin /></a>
-    </SocialMedia>
-  </FooterContainer>
-);
+const ContactEmail = styled.p`
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #cccccc;
+`;
+
+const Footer = () => {
+  return (
+    <FooterContainer>
+      <Links>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#use-cases">Use Cases</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#privacy">Privacy Policy</a>
+      </Links>
+      <SocialIcons>
+        <a href="https://facebook.com" aria-label="Facebook"><FaFacebookF /></a>
+        <a href="https://twitter.com" aria-label="Twitter"><FaTwitter /></a>
+        <a href="https://linkedin.com" aria-label="LinkedIn"><FaLinkedinIn /></a>
+      </SocialIcons>
+      <ContactEmail>contact@hivoro.com</ContactEmail>
+    </FooterContainer>
+  );
+};
 
 export default Footer;
