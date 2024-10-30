@@ -1,171 +1,78 @@
 // src/pages/Home.js
-import React from 'react';
-import styled from 'styled-components';
-import CTAButton from '../components/CTAButton';
-import FeatureCard from '../components/FeatureCard';
-import HowItWorksStep from '../components/HowItWorksStep';
-import TestimonialCard from '../components/TestimonialCard';
-import { FiCpu, FiUsers, FiMonitor, FiEdit3, FiSearch, FiDollarSign } from 'react-icons/fi';
 
-// Header Section
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Button from '../components/Button';  // Import the reusable button
+import WaitlistModal from '../components/WaitlistModal';
+import Hook from '../components/Hook';
+import CTA from '../components/CTA';
+
 const HeaderSection = styled.section`
-  padding: 100px 20px;
+  padding: 60px 20px;
   text-align: center;
-  background: #f9f9f9;
+  background: none;
+  max-width: 900px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 40px 15px;
+  }
 `;
 
-const MainHeadline = styled.h2`
-  font-size: 2.5em;
-  color: #333;
+const MainHeadline = styled.h1`
+  font-size: 2em;
+  color: #333333;
+  margin-bottom: 20px;
+  font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 1.75em;
+  }
 `;
 
 const Subheadline = styled.p`
-  font-size: 1.2em;
-  color: #666;
-  margin: 20px 0;
+  font-size: 1em;
+  color: #666666;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 0.95em;
+    margin-bottom: 25px;
+  }
 `;
 
-// Features Section
-const FeaturesSection = styled.section`
-  padding: 80px 20px;
-  background: #fff;
-`;
+const Home = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
 
-const FeaturesGrid = styled.div`
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-`;
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
 
-// How It Works Section
-const HowItWorksSection = styled.section`
-  padding: 80px 20px;
-  background: #f9f9f9;
-`;
+  return (
+    <div>
+      {/* Header Section */}
+      <HeaderSection>
+        <MainHeadline>Simplify Freelance Management, Scale Faster with Hivoro</MainHeadline>
+        <Subheadline>
+          AI-driven platform for seamless project scoping, talent matching, and compliance—built for companies managing multiple freelancers.
+        </Subheadline>
+        {/* Join Waitlist Button with green background */}
+        <Button onClick={handleModalOpen} bgColor="#4CAF50">Join the Waitlist</Button>
+      </HeaderSection>
 
-const StepsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-`;
+      {/* Hook Section */}
+      <Hook />
 
-// Testimonials Section
-const TestimonialsSection = styled.section`
-  padding: 80px 20px;
-  background: #fff;
-`;
+      {/* CTA Section */}
+      <CTA onCTAClick={handleModalOpen} />
 
-const TestimonialsGrid = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
-// About Section
-const AboutSection = styled.section`
-  padding: 80px 20px;
-  background: #f9f9f9;
-  text-align: center;
-`;
-
-const AboutText = styled.p`
-  max-width: 800px;
-  margin: 0 auto;
-  color: #666;
-  line-height: 1.6;
-`;
-
-const BoldText = styled.span`
-  font-weight: bold;
-  color: #333;
-`;
-
-// Call to Action Section
-const CTASection = styled.section`
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #4CAF50, #81C784);
-  text-align: center;
-  color: #fff;
-`;
-
-const CTAHeadline = styled.h2`
-  font-size: 2em;
-  margin-bottom: 20px;
-`;
-
-const Home = () => (
-  <div>
-    {/* Header Section */}
-    <HeaderSection>
-      <MainHeadline>Effortlessly Manage Freelancers with Hivoro.</MainHeadline>
-      <Subheadline>AI-Powered Tools for Scoping, Managing, and Scaling Your Freelance Workforce.</Subheadline>
-      <CTAButton>Join the Waitlist</CTAButton>
-    </HeaderSection>
-
-    {/* Features Section */}
-    <FeaturesSection>
-      <FeaturesGrid>
-        <FeatureCard
-          icon={<FiCpu />}
-          title="AI-Based Project Scoping"
-          description="Define project scopes quickly with our AI assistant."
-        />
-        <FeatureCard
-          icon={<FiUsers />}
-          title="Smart Freelancer Matching"
-          description="Instantly match with top freelancers suited to your needs."
-        />
-        <FeatureCard
-          icon={<FiMonitor />}
-          title="Centralized Dashboard"
-          description="Manage all freelancers and projects in one place."
-        />
-      </FeaturesGrid>
-    </FeaturesSection>
-
-    {/* How It Works Section */}
-    <HowItWorksSection>
-      <h2 style={{ textAlign: 'center', color: '#333' }}>How It Works</h2>
-      <StepsContainer>
-        <HowItWorksStep icon={<FiEdit3 />} title="Scope Your Project with AI Assistance." />
-        <HowItWorksStep icon={<FiSearch />} title="Match with Top Freelancers Instantly." />
-        <HowItWorksStep icon={<FiDollarSign />} title="Manage and Pay Through a Single Dashboard." />
-      </StepsContainer>
-    </HowItWorksSection>
-
-    {/* Testimonials Section */}
-    <TestimonialsSection>
-      <h2 style={{ textAlign: 'center', color: '#333' }}>What Our Users Say</h2>
-      <TestimonialsGrid>
-        <TestimonialCard
-          quote="Hivoro has revolutionized how we manage freelancers!"
-          author="Jane Doe, Project Manager"
-        />
-        <TestimonialCard
-          quote="The AI-based scoping tool is a game changer for our projects."
-          author="John Smith, CEO"
-        />
-        {/* Add more TestimonialCards as needed */}
-      </TestimonialsGrid>
-    </TestimonialsSection>
-
-    {/* About Section */}
-    <AboutSection>
-      <h2 style={{ color: '#333' }}>About Hivoro</h2>
-      <AboutText>
-        At Hivoro, our mission is to empower businesses with AI-driven tools to streamline freelance management. 
-        We believe in simplifying processes and fostering growth through innovation. Our mission is simple: 
-        <BoldText>Empower businesses to manage their freelance workforce efficiently and effectively.</BoldText>
-      </AboutText>
-      <CTAButton style={{ marginTop: '30px' }}>Learn More</CTAButton>
-    </AboutSection>
-
-    {/* Call to Action Section */}
-    <CTASection>
-      <CTAHeadline>Ready to Take Control of Your Freelance Workforce?</CTAHeadline>
-      <CTAButton style={{ backgroundColor: '#fff', color: '#4CAF50' }}>Join the Waitlist</CTAButton>
-    </CTASection>
-  </div>
-);
+      {/* Waitlist Modal */}
+      <WaitlistModal isOpen={isModalOpen} onClose={handleModalClose} />
+    </div>
+  );
+};
 
 export default Home;

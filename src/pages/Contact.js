@@ -1,6 +1,9 @@
-// src/pages/Contact.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Airtable from 'airtable';  // Import Airtable
+
+// Placeholder for Airtable setup (add credentials later)
+const base = new Airtable({ apiKey: 'patqzsxE9sLw9vZSt.5bad8f512f975e1afdd5acd1991538edc3789607fd30409ac3c83706d9ac6824' }).base('appocCHUXxRsDAKrQ');
 
 const ContactContainer = styled.section`
   padding: 100px 20px;
@@ -48,13 +51,13 @@ const TextArea = styled.textarea`
 const SubmitButton = styled.button`
   background-color: #4CAF50;
   color: #fff;
-  padding: 12px 30px;
+  padding: 12px;
   border: none;
   border-radius: 5px;
   font-size: 1em;
   cursor: pointer;
   margin-top: 20px;
-  width: 100%;
+  width: 105%;
 
   &:hover {
     background-color: #45a049;
@@ -67,29 +70,80 @@ const ContactInfo = styled.div`
   color: #666;
 `;
 
-const Contact = () => (
-  <ContactContainer>
-    <Heading>Contact Us</Heading>
-    <Form>
-      <InputField>
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" id="name" name="name" required />
-      </InputField>
-      <InputField>
-        <Label htmlFor="email">Email</Label>
-        <Input type="email" id="email" name="email" required />
-      </InputField>
-      <InputField>
-        <Label htmlFor="message">Message</Label>
-        <TextArea id="message" name="message" required />
-      </InputField>
-      <SubmitButton type="submit">Send Message</SubmitButton>
-    </Form>
-    <ContactInfo>
-      <p>Email: support@hivoro.com</p>
-      <p>Phone: +1 (123) 456-7890</p>
-    </ContactInfo>
-  </ContactContainer>
-);
+const Contact = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Add the form data to Airtable
+      await base('Table 1').create([
+        {
+          fields: {
+            Name: name,          // "Name" field in Airtable
+            Email: email,        // "Email" field in Airtable
+            Message: message,    // "Message" field in Airtable
+          },
+        },
+      ]);
+      alert('Your message has been sent successfully!');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('There was a problem. Please try again.');
+    }
+
+    // Reset form fields after submission
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+
+  return (
+    <ContactContainer>
+      <Heading>Contact Us</Heading>
+      <Form onSubmit={handleSubmit}>
+        <InputField>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </InputField>
+        <InputField>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </InputField>
+        <InputField>
+          <Label htmlFor="message">Message</Label>
+          <TextArea
+            id="message"
+            name="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          />
+        </InputField>
+        <SubmitButton type="submit">Send Message</SubmitButton>
+      </Form>
+      <ContactInfo>
+        <p>Email: officialhivoro@gmail.com</p>
+      </ContactInfo>
+    </ContactContainer>
+  );
+};
 
 export default Contact;
