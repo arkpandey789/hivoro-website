@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Airtable from 'airtable';  // Import Airtable
 
 const Overlay = styled.div`
   position: fixed;
@@ -60,9 +59,6 @@ const SubmitButton = styled.button`
   }
 `;
 
-// Airtable setup
-const base = new Airtable({ apiKey: 'patqzsxE9sLw9vZSt.5bad8f512f975e1afdd5acd1991538edc3789607fd30409ac3c83706d9ac6824' }).base('appSAnOdyjrMsePdm');
-
 const WaitlistModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
@@ -72,17 +68,26 @@ const WaitlistModal = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      // Add the data to Airtable
-      await base('Table 1').create([
-        {
+      const response = await fetch('https://api.airtable.com/v0/appSAnOdyjrMsePdm/Table%201', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer patqzsxE9sLw9vZSt.5bad8f512f975e1afdd5acd1991538edc3789607fd30409ac3c83706d9ac6824', // Add your API key
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
           fields: {
             Email: email,         // "Email" field in Airtable
             Name: name,           // "Name" field in Airtable
             'Company Name': companyName, // "Company Name" field in Airtable
-          },
-        },
-      ]);
-      alert('Thank you! You\'ve joined the waitlist.');
+          }
+        })
+      });
+
+      if (response.ok) {
+        alert('Thank you! You\'ve joined the waitlist.');
+      } else {
+        alert('There was a problem. Please try again.');
+      }
     } catch (error) {
       console.error('Error adding to Airtable:', error);
       alert('There was a problem. Please try again.');
