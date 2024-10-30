@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Airtable from 'airtable';  // Import Airtable
-
-// Placeholder for Airtable setup (add credentials later)
-const base = new Airtable({ apiKey: 'patqzsxE9sLw9vZSt.5bad8f512f975e1afdd5acd1991538edc3789607fd30409ac3c83706d9ac6824' }).base('appocCHUXxRsDAKrQ');
 
 const ContactContainer = styled.section`
   padding: 100px 20px;
@@ -79,17 +75,27 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      // Add the form data to Airtable
-      await base('Table 1').create([
-        {
-          fields: {
-            Name: name,          // "Name" field in Airtable
-            Email: email,        // "Email" field in Airtable
-            Message: message,    // "Message" field in Airtable
-          },
+      const response = await fetch('https://api.airtable.com/v0/appocCHUXxRsDAKrQ/Table%201', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer patqzsxE9sLw9vZSt.5bad8f512f975e1afdd5acd1991538edc3789607fd30409ac3c83706d9ac6824', // Add your API key
+          'Content-Type': 'application/json'
         },
-      ]);
-      alert('Your message has been sent successfully!');
+        body: JSON.stringify({
+          fields: {
+            Name: name,
+            Email: email,
+            Message: message
+          }
+        })
+      });
+
+      if (response.ok) {
+        alert('Your message has been sent successfully!');
+      } else {
+        alert('There was a problem. Please try again.');
+      }
+
     } catch (error) {
       console.error('Error sending message:', error);
       alert('There was a problem. Please try again.');
